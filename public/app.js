@@ -54,7 +54,7 @@ $(document).ready(function() {
   })
     // With that done, add the note information to the page
     .then(function(data) {
-    //   console.log(data);
+      console.log(data);
       // The title of the article
       $("#notes").append("<h2>" + data.title + "</h2>");
       // An input to enter a new title
@@ -78,6 +78,7 @@ $(document).ready(function() {
         console.log("delete");
         var id = $(this).attr("delete-id");
         console.log(id);
+        // $("#id",id).remove();
     })
     $("#articles").on("click", ".save", () => {
         console.log("save");
