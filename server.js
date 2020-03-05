@@ -2,23 +2,16 @@ var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 
-// Our scraping tools
-// Axios is a promised-based http library, similar to jQuery's Ajax method
-// It works on the client and on the server
 var axios = require("axios");
 var cheerio = require("cheerio");
 
-// Require all models
 var db = require("./models");
 
 var PORT = 3000;
 
-// Initialize Express
+
 var app = express();
 
-// Configure middleware
-
-// Use morgan logger for logging requests
 app.use(logger("dev"));
 // Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
@@ -116,6 +109,27 @@ app.post("/articles/:id", function(req, res) {
       // If an error occurred, send it to the client
       res.json(err);
     });
+});
+app.get("/delete/:id", function(req, res) {
+  // Remove a note using the objectID
+  db.Article.remove(
+    {
+      _id: mongoose.ObjectID(req.params.id)
+    },
+    function(error, removed) {
+      // Log any errors from mongojs
+      if (error) {
+        console.log(error);
+        res.send(error);
+      }
+      else {
+        // Otherwise, send the mongojs response to the browser
+        // This will fire off the success function of the ajax request
+        console.log(removed);
+        res.send(removed);
+      }
+    }
+  );
 });
 
 // Start the server
