@@ -2,8 +2,41 @@ body {
     background-color: #F2F6D0
 }
 
+.jumbotron {
+    text-align: center;
+    color: firebrick;
+    background-color: teal;
+}
+
 .artical {
     margin: 1px;
+    background-color: goldenrod;
+    color: teal;
+    cursor: pointer;
+}
+
+.btn {
+    color: teal;
+    background-color: goldenrod !important;
+    margin-left: 20px;
+}
+
+.save {
+    height: 30px !important;
+    margin-left: 0px;
+    margin-right: 20px;
+    font-size: 20px;
+    text-align: center;
+    padding-bottom: 35px;
+}
+
+.deleteArt {
+    height: 30px !important;
+    margin-left: 0px;
+    margin-right: 20px;
+    font-size: 20px;
+    text-align: center;
+    padding-bottom: 35px;
 }
 
 .storage {
