@@ -118,4 +118,15 @@ module.exports = function(app) {
         });
 
     });
+    app.get("/deleteNote/:id", function(req, res) {
+        // Remove a note using the objectID
+
+        db.Note.remove({ _id: req.params.id }, function(err) {
+            if (!err) {
+                console.log("removed")
+            } else {
+                console.log(err);
+            }
+        });
+    });
 };

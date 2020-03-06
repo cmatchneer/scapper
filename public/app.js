@@ -7,12 +7,49 @@ $(document).ready(function() {
         })
 
     });
-    $(".lead").on("click", "#full_list", () => {
+    $(".lead").on("click", "#unsaved", () => {
+        $("#articles").empty();
         $.getJSON("/articles", data => {
             // For each one
             for (let i = 0; i < data.length; i++) {
                 console.log();
                 if (!data[i].saved) {
+                    // Display the apropos information on the page
+                    var articleDiv = $("<div>");
+                    var deleteButton = $("<button>");
+                    var saveButton = $("<button>");
+                    var title = $("<p>");
+                    var link = $("<a>");
+                    link.attr({
+                        href: data[i].link,
+                        target: "_blank"
+                    });
+                    link.text("Link to the Artical");
+                    deleteButton.addClass("btn btn-primary btn-lg deleteArt");
+                    deleteButton.attr("data-id", data[i]._id);
+                    deleteButton.text("Delete");
+                    saveButton.addClass("btn btn-primary btn-lg save");
+                    saveButton.attr("data-id", data[i]._id);
+                    saveButton.text("Save");
+                    articleDiv.addClass("storage");
+                    articleDiv.attr("id", "divid" + data[i]._id);
+                    title.attr("data-id", data[i]._id);
+                    title.text(data[i].title);
+                    title.addClass("artical")
+                    articleDiv.append(title, saveButton, deleteButton, link);
+                    $("#articles").append(articleDiv);
+
+                }
+            }
+        });
+    });
+    $(".lead").on("click", "#saved", () => {
+        $("#articles").empty();
+        $.getJSON("/articles", data => {
+            // For each one
+            for (let i = 0; i < data.length; i++) {
+                console.log();
+                if (data[i].saved) {
                     // Display the apropos information on the page
                     var articleDiv = $("<div>");
                     var deleteButton = $("<button>");
@@ -73,10 +110,12 @@ $(document).ready(function() {
 
                 // If there's a note in the article
                 if (data.note) {
+                    console.log(data.note);
                     // Place the title of the note in the title input
                     $("#titleinput").val(data.note.title);
                     // Place the body of the note in the body textarea
                     $("#bodyinput").val(data.note.body);
+                    $("#notes").append("<button data-id='" + data.note._id + "' id='deletenote'>Delete Note</button>");
                 }
             });
     });
@@ -154,4 +193,24 @@ $(document).ready(function() {
         // Also, remove the values entered in the input and textarea for note entry
 
     });
+    $("#notes").on("click", "#deletenote", function() {
+
+        var id = $(this).attr("data-id");
+        console.log(id);
+        $.ajax({
+            type: "GET",
+            url: "/deleteNote/" + id,
+
+            // On successful call
+            success: function(response) {
+                console.log(response);
+
+
+            }
+
+        });
+        $("#notes").empty();
+        $("#titleinput").val("");
+        $("#bodyinput").val("");
+    })
 });
