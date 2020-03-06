@@ -84,7 +84,7 @@ $(document).ready(function() {
     $("#articles").on("click", ".deleteArt", function() {
         console.log("delete");
         var id = $(this).attr("data-id");
-        console.log(id);
+
         $.ajax({
             type: "GET",
             url: "/deleteArt/" + id,
@@ -93,14 +93,30 @@ $(document).ready(function() {
             success: function(response) {
                 console.log(response);
 
+
             }
+
         });
-        // $("#id",id).remove();
+
+        $("#divid" + id).remove();
     })
     $("#articles").on("click", ".save", function() {
         console.log("save");
         var id = $(this).attr("data-id");
-        console.log(id);
+        $.ajax({
+            type: "POST",
+            url: "/update/" + id,
+            dataType: "json",
+            data: {
+                title: $("#title").val(),
+                note: $("#note").val()
+            },
+            // On successful call
+            success: function(data) {
+                console.log(data);
+            }
+        });
+        $("#divid" + id).remove();
     })
 
 

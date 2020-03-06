@@ -109,4 +109,13 @@ module.exports = function(app) {
             }
         });
     });
+    app.post("/update/:id", function(req, res) {
+        db.Article.update({ _id: req.params.id }, { saved: true }, function(err, response) {
+            if (err) {
+                res.send(err);
+            }
+            res.send(response);
+        });
+
+    });
 };
