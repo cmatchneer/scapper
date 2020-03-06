@@ -10,7 +10,7 @@ var PORT = 3000;
 var app = express();
 require("./routes/api_routes.js")(app);
 require("./routes/html-routes.js")(app);
-
+mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true });
 
 app.use(logger("dev"));
 // Parse request body as JSON
@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true });
+
 
 
 
@@ -28,5 +28,5 @@ mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true 
 // app.use(route2);
 // Start the server
 app.listen(PORT, function() {
-  console.log("App running on port " + PORT + "!");
+    console.log("App running on port " + PORT + "!");
 });
