@@ -5,37 +5,43 @@ $(document).ready(function() {
         $.get("/scrape", () => {
             console.log("scraped")
         })
+       
+    });
+    $(".lead").on("click", "#scrape", () => {
         $.getJSON("/articles", data => {
             // For each one
             for (let i = 0; i < data.length; i++) {
-                // Display the apropos information on the page
-                var articleDiv = $("<div>");
-                var deleteButton = $("<button>");
-                var saveButton = $("<button>");
-                var title = $("<p>");
-                var link = $("<a>");
-                link.attr({
-                    href: data[i].link,
-                    target: "_blank"
-                });
-                link.text("Link to the Artical");
-                deleteButton.addClass("btn btn-primary btn-lg delete");
-                deleteButton.attr( "delete-id", data[i]._id );
-                deleteButton.text("Delete");
-                saveButton.addClass("btn btn-primary btn-lg save");
-                saveButton.attr("save-id", data[i]._id );
-                saveButton.text("Save");
-                articleDiv.addClass("storage");
-                articleDiv.attr("id",data[i]._id);
-                title.attr("title-id", data[i]._id);
-                title.text(data[i].title);
-                // title.addClass("artical")
-                articleDiv.append(title, saveButton, deleteButton, link);
-                $("#articles").append(articleDiv);
+                console.log();
+                if(!data[i].saved){
+                    // Display the apropos information on the page
+                    var articleDiv = $("<div>");
+                    var deleteButton = $("<button>");
+                    var saveButton = $("<button>");
+                    var title = $("<p>");
+                    var link = $("<a>");
+                    link.attr({
+                        href: data[i].link,
+                        target: "_blank"
+                    });
+                    link.text("Link to the Artical");
+                    deleteButton.addClass("btn btn-primary btn-lg delete");
+                    deleteButton.attr( "data-id", data[i]._id );
+                    deleteButton.text("Delete");
+                    saveButton.addClass("btn btn-primary btn-lg save");
+                    saveButton.attr("data-id", data[i]._id );
+                    saveButton.text("Save");
+                    articleDiv.addClass("storage");
+                    articleDiv.attr("id","divid"+data[i]._id);
+                    title.attr("data-id", data[i]._id);
+                    title.text(data[i].title);
+                    title.addClass("artical")
+                    articleDiv.append(title, saveButton, deleteButton, link);
+                    $("#articles").append(articleDiv);
+                
+                }
             }
         });
     });
-
 
     // Whenever someone clicks a p tag
     $("#articles").on("click","p", () => {
@@ -43,7 +49,7 @@ $(document).ready(function() {
         // Empty the notes from the note section
         $("#notes").empty();
         // Save the id from the p tag
-        var thisId = $(this).attr("title-id");
+        var thisId = $(this).attr("data-id");
         console.log(thisId);
         
 
@@ -76,19 +82,19 @@ $(document).ready(function() {
 
     $("#articles").on("click", ".delete", () => {
         console.log("delete");
-        var id = $(this).attr("delete-id");
+        var id = $(this).attr("data-id");
         console.log(id);
         // $("#id",id).remove();
     })
     $("#articles").on("click", ".save", () => {
         console.log("save");
-        var id =$(this).attr("save-id");
+        var id =$(this).attr("data-id");
         console.log(id);
     })
 
 
     // When you click the savenote button
-    $(document).on("click", "#savenote", function() {
+    $(document).on("click", "#savenote", ()=> {
         // Grab the id associated with the article from the submit button
         var thisId = $(this).attr("data-id");
 
